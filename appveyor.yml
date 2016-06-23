@@ -1,0 +1,17 @@
+version: 1.0.{build}.0
+
+services:
+  - mssql2012sp1
+
+environment:
+  ContosoUniversity.ConnectionString: Server=(local)\SQL2012SP1;Database=ContosoUniversity;User ID=sa;Password=Password12!
+  ContosoUniversity.Tests.ConnectionString: Server=(local)\SQL2012SP1;Database=ContosoUniversity_Tests;User ID=sa;Password=Password12!
+
+branches:
+  only:
+    - master
+
+build_script:
+- cmd: .\build.bat ci "%APPVEYOR_BUILD_VERSION%"
+
+test: off

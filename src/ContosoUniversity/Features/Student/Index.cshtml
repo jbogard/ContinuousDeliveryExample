@@ -1,0 +1,62 @@
+﻿@model Index.Result
+@using ContosoUniversity.Features.Student;
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Students";
+}
+
+<h2>Students</h2>
+
+<p>
+    @(Html.Link<UiController>(c => c.Create(), "Create New"))
+</p>
+<form method="GET">
+    <p>
+        Find by name: @Html.Input(m => m.SearchString).RemoveClass("form-control")
+        <input type="submit" value="Search" />
+    </p>
+</form>
+    <table class="table">
+        <tr>
+            <th>
+                @(Html.Link<UiController>(c => c.Index(new Index.Query { SortOrder = Model.NameSortParm, CurrentFilter = Model.CurrentFilter }), "Last Name"))
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                @(Html.Link<UiController>(c => c.Index(new Index.Query { SortOrder = Model.DateSortParm, CurrentFilter = Model.CurrentFilter }), "Enrollment Date"))
+            </th>
+            <th></th>
+        </tr>
+
+
+        @{ int i = 0; }
+        @foreach (var item in Model.Results)
+        {
+            <tr>
+                <td>
+                    @Html.Display(modelItem => modelItem.Results[i].LastName)
+                </td>
+                <td>
+                    @Html.Display(modelItem => modelItem.Results[i].FirstMidName)
+                </td>
+                <td>
+                    @Html.Display(modelItem => modelItem.Results[i].EnrollmentDate)
+                </td>
+                <td>
+                    @(Html.Link<UiController>(c => c.Edit(new Edit.Query {Id = item.ID}))) |
+                    @(Html.Link<UiController>(c => c.Details(new Details.Query {Id = item.ID }))) |
+                    @(Html.Link<UiController>(c => c.Delete(new Delete.Query { Id = item.ID })))
+                </td>
+            </tr>
+            i++;
+        }
+
+    </table>
+    <br />
+    Page @(Model.Results.PageCount < Model.Results.PageNumber ? 0 : Model.Results.PageNumber) of @Model.Results.PageCount
+
+    @(Html.PagedListPager(Model.Results, page => Url.Action<UiController>(c => c.Index(new Index.Query { Page = page, SortOrder = Model.CurrentSort, CurrentFilter = Model.CurrentFilter }))))

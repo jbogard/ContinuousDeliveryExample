@@ -1,0 +1,50 @@
+﻿@using ContosoUniversity.Features.Department
+@model IList<Index.Model>
+@{
+    ViewBag.Title = "Departments";
+}
+<h2>Departments</h2>
+<p>
+    @(Html.Link<UiController>(c => c.Create(), "Create New"))
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayLabel(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayLabel(model => model.Budget)
+        </th>
+        <th>
+            @Html.DisplayLabel(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayLabel(model => model.AdministratorFullName)
+        </th>
+        <th></th>
+    </tr>
+    @{ int i = 0; }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.Display(modelItem => modelItem[i].Name)
+            </td>
+            <td>
+                @Html.Display(modelItem => modelItem[i].Budget)
+            </td>
+            <td>
+                @Html.Display(modelItem => modelItem[i].StartDate)
+            </td>
+            <td>
+                @Html.Display(modelItem => modelItem[i].AdministratorFullName)
+            </td>
+            <td>
+                @(Html.Link<UiController>(c => c.Edit(new Edit.Query { Id = item.DepartmentID }))) |
+                @(Html.Link<UiController>(c => c.Details(new Details.Query { Id = item.DepartmentID }))) |
+                @(Html.Link<UiController>(c => c.Delete(new Delete.Query { Id = item.DepartmentID })))
+            </td>
+        </tr>
+        i++;
+    }
+</table>

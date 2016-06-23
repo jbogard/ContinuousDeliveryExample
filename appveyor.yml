@@ -1,0 +1,21 @@
+version: 1.0.{build}.0
+
+services:
+  - mssql2012sp1
+
+branches:
+  only:
+    - master
+
+build_script:
+- cmd: .\build.bat ci "%APPVEYOR_BUILD_VERSION%"
+
+test: off
+
+artifacts:
+- path: .\build\packages\**
+  name: NuGet
+
+deploy_script:
+- choco install octopustools
+- octo create-release --project "Koch Kanban Example" --version %APPVEYOR_BUILD_VERSION% --server https://headspring-od.southcentralus.cloudapp.azure.com --apiKey API-TX1JGNZHPF6KRBJNESS6465QYHA --packageversion %APPVEYOR_BUILD_VERSION% --deployto "PM Development" --ignoreSslErrors

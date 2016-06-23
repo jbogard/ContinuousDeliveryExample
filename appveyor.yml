@@ -18,4 +18,4 @@ artifacts:
 
 deploy_script:
 - choco install octopustools
-- octo create-release --project "Koch Kanban Example" --version %APPVEYOR_BUILD_VERSION% --server https://headspring-od.southcentralus.cloudapp.azure.com --apiKey API-TX1JGNZHPF6KRBJNESS6465QYHA --packageversion %APPVEYOR_BUILD_VERSION% --deployto "PM Development" --ignoreSslErrors
+- octo create-release --project "CI-CD Example" --version %APPVEYOR_BUILD_VERSION% --server https://headspring-od.southcentralus.cloudapp.azure.com --apiKey API-TX1JGNZHPF6KRBJNESS6465QYHA --packageversion %APPVEYOR_BUILD_VERSION% --deployto "PM Development" --ignoreSslErrors
